@@ -107,6 +107,30 @@ select.where-sel:focus,input.cost-in:focus{border-color:#c9a96e}
 .reset-btn{display:block;margin:24px auto 0;padding:8px 22px;background:none;border:1.5px solid #e0e0e0;border-radius:8px;color:#ccc;font-size:12px;cursor:pointer;transition:all .15s}
 .reset-btn:hover{border-color:#aaa;color:#666}
 
+/* SYNC */
+.sync-bar{display:flex;align-items:center;justify-content:space-between;margin-top:7px}
+.sync-status{font-size:11px;display:flex;align-items:center;gap:5px;color:#aaa}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#ccc;flex-shrink:0}
+.sync-dot.green{background:#22c55e}
+.sync-dot.orange{background:#f59e0b;animation:pulse .8s infinite}
+.sync-dot.red{background:#ef4444}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sync-setup-btn{font-size:11px;color:#c9a96e;cursor:pointer;border:none;background:none;padding:0;text-decoration:underline}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:16px;padding:24px;max-width:360px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.18)}
+.modal h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.modal p{font-size:13px;color:#666;line-height:1.5;margin-bottom:14px}
+.modal input{width:100%;font-size:13px;padding:10px 12px;border:1.5px solid #e0e0e0;border-radius:9px;outline:none;font-family:monospace;margin-bottom:12px}
+.modal input:focus{border-color:#c9a96e}
+.modal-btns{display:flex;gap:8px}
+.modal-btn{flex:1;padding:10px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.modal-btn.primary{background:#c9a96e;color:#fff}
+.modal-btn.primary:hover{background:#b8935a}
+.modal-btn.secondary{background:#f3f4f6;color:#555}
+
 @media(max-width:520px){
   .stats-strip{grid-template-columns:repeat(2,1fr)}
   .app-header{padding:12px 14px 9px}
@@ -123,7 +147,27 @@ select.where-sel:focus,input.cost-in:focus{border-color:#c9a96e}
   <div class="sub">Boy · Due Jul 14, 2026 · AIH HCMC</div>
   <div class="progress-wrap">
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-text" id="progressText">Loading...</div>
+    <div class="sync-bar">
+      <div class="progress-text" id="progressText">Loading...</div>
+      <div class="sync-status">
+        <div class="sync-dot" id="syncDot"></div>
+        <span id="syncLabel">Not synced</span>
+        <button class="sync-setup-btn" onclick="showSyncSetup()">⚙️ Setup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SYNC SETUP MODAL -->
+<div class="modal-overlay" id="syncModal">
+  <div class="modal">
+    <h3>☁️ Cloud Sync Setup</h3>
+    <p>Enter your GitHub token to save your checklist permanently across all devices. Your token is stored only on this device.</p>
+    <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+    <div class="modal-btns">
+      <button class="modal-btn secondary" onclick="hideSyncSetup()">Cancel</button>
+      <button class="modal-btn primary" onclick="saveToken()">Save & Sync</button>
+    </div>
   </div>
 </div>
 
@@ -435,8 +479,96 @@ function resetAll() {
   render();
 }
 
+// ── CLOUD SYNC ──────────────────────────────────────────────
+const REPO = 'plasticstoolcat/ax-checklist';
+const STATE_FILE = 'state.json';
+const TOKEN_KEY = 'ax-gh-token';
+let syncTimer = null;
+let fileSha = null;
+
+function getSyncToken() { return localStorage.getItem(TOKEN_KEY) || ''; }
+
+function setSyncStatus(status, msg) {
+  const dot = document.getElementById('syncDot');
+  const label = document.getElementById('syncLabel');
+  dot.className = 'sync-dot ' + (status === 'ok' ? 'green' : status === 'busy' ? 'orange' : status === 'err' ? 'red' : '');
+  label.textContent = msg;
+}
+
+function showSyncSetup() {
+  document.getElementById('tokenInput').value = getSyncToken();
+  document.getElementById('syncModal').classList.add('show');
+}
+function hideSyncSetup() { document.getElementById('syncModal').classList.remove('show'); }
+
+function saveToken() {
+  const t = document.getElementById('tokenInput').value.trim();
+  if (!t) return;
+  localStorage.setItem(TOKEN_KEY, t);
+  hideSyncSetup();
+  loadFromGitHub();
+}
+
+async function loadFromGitHub() {
+  const token = getSyncToken();
+  if (!token) { setSyncStatus('', 'Not synced'); return; }
+  setSyncStatus('busy', 'Loading…');
+  try {
+    const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${STATE_FILE}`, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    fileSha = d.sha;
+    const decoded = JSON.parse(atob(d.content.replace(/\n/g,'')));
+    if (decoded && typeof decoded === 'object') {
+      state = { ...state, ...decoded };
+      saveState();
+      render();
+    }
+    setSyncStatus('ok', 'Synced ✓');
+  } catch(e) {
+    setSyncStatus('err', 'Sync error');
+    console.warn('Load error:', e);
+  }
+}
+
+async function saveToGitHub() {
+  const token = getSyncToken();
+  if (!token) return;
+  setSyncStatus('busy', 'Saving…');
+  try {
+    const content = btoa(JSON.stringify(state));
+    const body = { message: 'checklist state update', content };
+    if (fileSha) body.sha = fileSha;
+    const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${STATE_FILE}`, {
+      method: 'PUT',
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    fileSha = d.content.sha;
+    setSyncStatus('ok', 'Saved ✓');
+  } catch(e) {
+    setSyncStatus('err', 'Save failed');
+    console.warn('Save error:', e);
+  }
+}
+
+function triggerSync() {
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(saveToGitHub, 2000);
+}
+
+// Patch saveState to trigger sync
+const _origSaveState = saveState;
+window.saveState = function() { _origSaveState(); triggerSync(); };
+
+// ── INIT ─────────────────────────────────────────────────────
 loadState();
 render();
+if (getSyncToken()) { loadFromGitHub(); } else { setSyncStatus('', 'Not synced'); }
 </script>
 </body>
 </html>
