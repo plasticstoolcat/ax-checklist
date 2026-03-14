@@ -407,6 +407,7 @@ function renderItem(item) {
 function toggleCheck(id, checked) {
   state[`cb_${id}`] = checked;
   saveState();
+  triggerSync();
   const el = document.getElementById(`item-${id}`);
   el.classList.toggle('done', checked);
   updateCounts();
@@ -424,8 +425,8 @@ function toggleCat(id) {
   el.classList.toggle('collapsed');
 }
 
-function saveWhere(id, val) { state[`where_${id}`] = val; saveState(); }
-function saveCost(id, val) { state[`cost_${id}`] = val; saveState(); }
+function saveWhere(id, val) { state[`where_${id}`] = val; saveState(); triggerSync(); }
+function saveCost(id, val) { state[`cost_${id}`] = val; saveState(); triggerSync(); }
 
 function updateCounts() {
   const total = ITEMS.length;
@@ -567,10 +568,6 @@ function triggerSync() {
   clearTimeout(syncTimer);
   syncTimer = setTimeout(saveToGitHub, 2000);
 }
-
-// Patch saveState to trigger sync
-const _origSaveState = saveState;
-window.saveState = function() { _origSaveState(); triggerSync(); };
 
 // ── INIT ─────────────────────────────────────────────────────
 loadState();
