@@ -538,7 +538,14 @@ async function saveToGitHub() {
   if (!token) return;
   setSyncStatus('busy', 'Saving…');
   try {
-    const content = btoa(JSON.stringify(state));
+    // Always fetch current SHA before saving to avoid conflicts
+    if (!fileSha) {
+      const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${STATE_FILE}`, {
+        headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+      });
+      if (r.ok) { const d = await r.json(); fileSha = d.sha; }
+    }
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
     const body = { message: 'checklist state update', content };
     if (fileSha) body.sha = fileSha;
     const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${STATE_FILE}`, {
