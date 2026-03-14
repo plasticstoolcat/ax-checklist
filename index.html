@@ -510,18 +510,42 @@ function saveToken() {
   loadFromGitHub();
 }
 
+function toB64(str) {
+  try {
+    const bytes = new TextEncoder().encode(str);
+    let bin = '';
+    bytes.forEach(b => bin += String.fromCharCode(b));
+    return btoa(bin);
+  } catch(e) { return btoa(str); }
+}
+
+function fromB64(b64) {
+  try {
+    const bin = atob(b64.replace(/\n/g,''));
+    const bytes = new Uint8Array(bin.length);
+    for (let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  } catch(e) { return atob(b64.replace(/\n/g,'')); }
+}
+
+const GH_HEADERS = (token) => ({
+  Authorization: `token ${token}`,
+  Accept: 'application/vnd.github.v3+json',
+  'Content-Type': 'application/json'
+});
+
 async function loadFromGitHub() {
   const token = getSyncToken();
   if (!token) { setSyncStatus('', 'Not synced'); return; }
   setSyncStatus('busy', 'Loading…');
   try {
     const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${STATE_FILE}`, {
-      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+      headers: GH_HEADERS(token)
     });
-    if (!r.ok) throw new Error(r.status);
     const d = await r.json();
+    if (!r.ok) throw new Error((d.message || r.status));
     fileSha = d.sha;
-    const decoded = JSON.parse(atob(d.content.replace(/\n/g,'')));
+    const decoded = JSON.parse(fromB64(d.content));
     if (decoded && typeof decoded === 'object') {
       state = { ...state, ...decoded };
       saveState();
@@ -529,7 +553,7 @@ async function loadFromGitHub() {
     }
     setSyncStatus('ok', 'Synced ✓');
   } catch(e) {
-    setSyncStatus('err', 'Sync error');
+    setSyncStatus('err', String(e.message||e).slice(0,30));
     console.warn('Load error:', e);
   }
 }
@@ -539,27 +563,25 @@ async function saveToGitHub() {
   if (!token) return;
   setSyncStatus('busy', 'Saving…');
   try {
-    // Always fetch current SHA before saving to avoid conflicts
     if (!fileSha) {
       const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${STATE_FILE}`, {
-        headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+        headers: GH_HEADERS(token)
       });
       if (r.ok) { const d = await r.json(); fileSha = d.sha; }
     }
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
-    const body = { message: 'checklist state update', content };
+    const body = { message: 'state', content: toB64(JSON.stringify(state)) };
     if (fileSha) body.sha = fileSha;
     const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${STATE_FILE}`, {
       method: 'PUT',
-      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      headers: GH_HEADERS(token),
       body: JSON.stringify(body)
     });
-    if (!r.ok) throw new Error(r.status);
     const d = await r.json();
+    if (!r.ok) throw new Error((d.message || r.status));
     fileSha = d.content.sha;
     setSyncStatus('ok', 'Saved ✓');
   } catch(e) {
-    setSyncStatus('err', 'Save failed');
+    setSyncStatus('err', String(e.message||e).slice(0,30));
     console.warn('Save error:', e);
   }
 }
