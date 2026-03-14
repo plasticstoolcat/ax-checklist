@@ -3,938 +3,440 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Baby Shopping Checklist 👶</title>
+<title>👶 Baby Checklist — Na & Baby Boy</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #faf9f7; color: #2d2d2d; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8f7f5;color:#1a1a1a;font-size:15px;-webkit-font-smoothing:antialiased}
 
-  header {
-    background: #fff;
-    border-bottom: 1px solid #eee;
-    padding: 20px 24px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-  }
-  header h1 { font-size: 18px; font-weight: 700; color: #1a1a1a; }
-  header p { font-size: 13px; color: #888; margin-top: 2px; }
+/* HEADER */
+.app-header{background:#fff;border-bottom:1px solid #e8e8e8;padding:14px 18px 10px;position:sticky;top:0;z-index:200;box-shadow:0 1px 8px rgba(0,0,0,0.07)}
+.app-header h1{font-size:17px;font-weight:700;letter-spacing:-0.01em}
+.app-header .sub{font-size:12px;color:#999;margin-top:1px}
+.progress-wrap{margin-top:9px}
+.progress-track{background:#ebebeb;border-radius:99px;height:5px}
+.progress-fill{background:linear-gradient(90deg,#c9a96e,#e8c98a);height:5px;border-radius:99px;transition:width .4s ease;width:0%}
+.progress-text{font-size:11px;color:#bbb;margin-top:4px}
 
-  .progress-bar-wrap { background: #eee; border-radius: 99px; height: 6px; margin-top: 10px; }
-  .progress-bar { background: #c9a96e; height: 6px; border-radius: 99px; transition: width 0.3s ease; }
-  .progress-label { font-size: 12px; color: #888; margin-top: 5px; }
+/* FILTER BAR */
+.filter-bar{background:#fff;border-bottom:1px solid #eee;padding:9px 16px;display:flex;gap:7px;overflow-x:auto;position:sticky;top:79px;z-index:190;scrollbar-width:none}
+.filter-bar::-webkit-scrollbar{display:none}
+.fb{font-size:12px;padding:5px 13px;border-radius:99px;border:1.5px solid #e0e0e0;background:#fff;cursor:pointer;white-space:nowrap;color:#666;transition:all .15s;font-weight:500}
+.fb.active{background:#c9a96e;border-color:#c9a96e;color:#fff}
+.fb:hover:not(.active){border-color:#bbb;color:#333}
 
-  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
+/* CONTAINER */
+.container{max-width:780px;margin:0 auto;padding:18px 14px 64px}
 
-  .category {
-    margin-bottom: 32px;
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  }
-  .category-header {
-    padding: 14px 20px;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+/* STATS STRIP */
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat-card{background:#fff;border-radius:12px;padding:12px 10px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.stat-num{font-size:22px;font-weight:700;color:#1a1a1a}
+.stat-label{font-size:11px;color:#aaa;margin-top:2px;line-height:1.2}
 
-  /* Category colors */
-  .cat-sleep .category-header { background: #e8f4f8; color: #2a6b8a; }
-  .cat-feeding .category-header { background: #fdf3e7; color: #a0622a; }
-  .cat-bath .category-header { background: #e9f5ec; color: #2a7a45; }
-  .cat-clothing .category-header { background: #f3eeff; color: #6b3fa0; }
-  .cat-transport .category-header { background: #fff0f0; color: #a03030; }
-  .cat-health .category-header { background: #fff8e1; color: #8a6000; }
-  .cat-skincare .category-header { background: #fce4ec; color: #a0304a; }
-  .cat-pregnancy .category-header { background: #f3f3f3; color: #555; }
-  .cat-supplements .category-header { background: #e8f5e9; color: #2e7d32; }
-  .cat-bag .category-header { background: #e3f2fd; color: #1565c0; }
-  .cat-formula .category-header { background: #fce4ec; color: #880e4f; }
+/* CATEGORY */
+.category{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:16px}
+.cat-header{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;user-select:none}
+.cat-left{display:flex;align-items:center;gap:9px}
+.cat-emoji{font-size:16px}
+.cat-title{font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.cat-right{display:flex;align-items:center;gap:8px}
+.cat-done-count{font-size:11px;color:#aaa}
+.cat-chevron{font-size:11px;color:#ccc;transition:transform .2s}
+.category.collapsed .cat-chevron{transform:rotate(-90deg)}
+.cat-body{border-top:1px solid #f0f0f0}
+.category.collapsed .cat-body{display:none}
 
-  table { width: 100%; border-collapse: collapse; }
-  thead th {
-    padding: 10px 16px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #999;
-    background: #fafafa;
-    border-bottom: 1px solid #eee;
-    text-align: left;
-  }
-  thead th:first-child { width: 40px; text-align: center; }
-  thead th.col-where { width: 100px; }
-  thead th.col-link { width: 80px; }
-  thead th.col-brand { width: 160px; }
+/* CATEGORY COLORS */
+.cat-sleep .cat-header{background:#f0f8fc}.cat-sleep .cat-title{color:#2a6b8a}
+.cat-feeding .cat-header{background:#fef8f0}.cat-feeding .cat-title{color:#a0622a}
+.cat-sterilising .cat-header{background:#f0f4fe}.cat-sterilising .cat-title{color:#3545a8}
+.cat-transport .cat-header{background:#fff3f3}.cat-transport .cat-title{color:#a03030}
+.cat-health .cat-header{background:#fffbee}.cat-health .cat-title{color:#7a5500}
+.cat-skincare .cat-header{background:#fef0f5}.cat-skincare .cat-title{color:#a0304a}
+.cat-clothing .cat-header{background:#f5f0ff}.cat-clothing .cat-title{color:#6030a0}
+.cat-bath .cat-header{background:#f0fef5}.cat-bath .cat-title{color:#2a7a45}
+.cat-supplements .cat-header{background:#f0fef2}.cat-supplements .cat-title{color:#2e7d32}
+.cat-forme .cat-header{background:#f8f8f8}.cat-forme .cat-title{color:#555}
+.cat-bag .cat-header{background:#f0f5ff}.cat-bag .cat-title{color:#1565c0}
+.cat-formula .cat-header{background:#fff0f8}.cat-formula .cat-title{color:#880e4f}
 
-  tbody tr { border-bottom: 1px solid #f0f0f0; transition: background 0.15s; }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: #fafafa; }
-  tbody tr.done td { opacity: 0.45; }
-  tbody tr.done td .item-name { text-decoration: line-through; }
+/* ITEM */
+.item{border-bottom:1px solid #f2f2f2}
+.item:last-child{border-bottom:none}
+.item.done .item-name{text-decoration:line-through;color:#bbb}
+.item.done .item-meta{opacity:.5}
+.item.hidden-filter{display:none}
 
-  td { padding: 12px 16px; font-size: 13.5px; vertical-align: top; }
-  td:first-child { text-align: center; padding-top: 14px; width: 40px; }
+.item-main{display:flex;align-items:flex-start;padding:11px 14px;gap:11px;cursor:pointer}
+.item-cb{padding-top:1px;flex-shrink:0}
+.item-cb input{width:18px;height:18px;accent-color:#c9a96e;cursor:pointer}
+.item-info{flex:1;min-width:0}
+.item-name{font-size:14px;font-weight:500;line-height:1.3;color:#1a1a1a}
+.item-meta{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;align-items:center}
+.badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;white-space:nowrap}
+.b-must{background:#fee2e2;color:#b91c1c}
+.b-high{background:#fef3c7;color:#b45309}
+.b-nice{background:#f3f4f6;color:#6b7280}
+.b-now{background:#dcfce7;color:#15803d}
+.b-w30{background:#fef9c3;color:#854d0e}
+.b-prebirth{background:#ffe4e6;color:#9f1239}
+.b-after{background:#f1f5f9;color:#64748b}
+.brand-preview{font-size:12px;color:#999;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-  input[type="checkbox"] {
-    width: 17px; height: 17px; cursor: pointer;
-    accent-color: #c9a96e;
-  }
+.expand-btn{flex-shrink:0;color:#ddd;font-size:13px;transition:transform .2s;align-self:center;padding:4px 2px}
+.item.expanded .expand-btn{transform:rotate(90deg);color:#aaa}
 
-  .item-name { font-weight: 500; color: #1a1a1a; }
-  .item-notes { font-size: 12px; color: #888; margin-top: 3px; }
-  .priority { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 99px; margin-left: 6px; vertical-align: middle; }
-  .p-red { background: #fee2e2; color: #b91c1c; }
-  .p-orange { background: #fef3c7; color: #b45309; }
-  .p-gray { background: #f3f4f6; color: #6b7280; }
+/* ITEM DETAIL */
+.item-detail{display:none;padding:4px 14px 14px 43px}
+.item.expanded .item-detail{display:block}
+.detail-section{margin-bottom:8px}
+.dl{font-size:11px;font-weight:600;color:#bbb;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
+.dv{font-size:13px;color:#444;line-height:1.5}
+.dv.alt{font-size:12px;color:#888;margin-top:1px}
+.dv.note{color:#666;font-style:italic;font-size:12.5px}
+.detail-inputs{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
+select.where-sel,input.cost-in{font-size:12px;padding:6px 10px;border:1.5px solid #e8e8e8;border-radius:8px;background:#fafafa;color:#333;outline:none}
+select.where-sel{width:120px;cursor:pointer}
+input.cost-in{width:130px}
+input.cost-in::placeholder{color:#ccc}
+select.where-sel:focus,input.cost-in:focus{border-color:#c9a96e}
+.link-btn{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:#c9a96e;text-decoration:none;border:1.5px solid #c9a96e;border-radius:7px;padding:4px 10px;font-weight:500;transition:all .15s}
+.link-btn:hover{background:#c9a96e;color:#fff}
 
-  .brand { font-size: 13px; color: #555; }
-  .brand-alt { font-size: 11px; color: #aaa; margin-top: 2px; }
+/* RESET */
+.reset-btn{display:block;margin:24px auto 0;padding:8px 22px;background:none;border:1.5px solid #e0e0e0;border-radius:8px;color:#ccc;font-size:12px;cursor:pointer;transition:all .15s}
+.reset-btn:hover{border-color:#aaa;color:#666}
 
-  .where-select {
-    font-size: 12px;
-    padding: 4px 8px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background: #fafafa;
-    cursor: pointer;
-    width: 90px;
-    color: #444;
-  }
-  .where-select:focus { outline: none; border-color: #c9a96e; }
-
-  .link-btn {
-    display: inline-block;
-    font-size: 11px;
-    color: #c9a96e;
-    text-decoration: none;
-    border: 1px solid #c9a96e;
-    border-radius: 6px;
-    padding: 3px 8px;
-    white-space: nowrap;
-  }
-  .link-btn:hover { background: #c9a96e; color: #fff; }
-  .no-link { color: #ddd; font-size: 12px; }
-
-  .notes-cell { font-size: 12.5px; color: #666; max-width: 220px; }
-
-  .reset-btn {
-    display: block;
-    margin: 20px auto 0;
-    padding: 8px 20px;
-    background: none;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    color: #aaa;
-    font-size: 12px;
-    cursor: pointer;
-  }
-  .reset-btn:hover { border-color: #aaa; color: #555; }
+@media(max-width:520px){
+  .stats-strip{grid-template-columns:repeat(2,1fr)}
+  .app-header{padding:12px 14px 9px}
+  .filter-bar{top:76px;padding:8px 12px}
+  .item-main{padding:10px 12px;gap:9px}
+  .item-detail{padding:4px 12px 12px 41px}
+}
 </style>
 </head>
 <body>
 
-<header>
+<div class="app-header">
   <h1>👶 Baby Shopping Checklist</h1>
-  <p>Boy · Due Jul 14, 2026 · Start buying 🔴 items by Week 36 (Jun 2026)</p>
-  <div class="progress-bar-wrap">
-    <div class="progress-bar" id="progressBar" style="width:0%"></div>
+  <div class="sub">Boy · Due Jul 14, 2026 · AIH HCMC</div>
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">Loading...</div>
   </div>
-  <div class="progress-label" id="progressLabel">0 of 0 items checked</div>
-</header>
+</div>
+
+<div class="filter-bar">
+  <button class="fb active" onclick="setFilter('all')">All</button>
+  <button class="fb" onclick="setFilter('must')">🔴 MUST only</button>
+  <button class="fb" onclick="setFilter('notdone')">Not bought yet</button>
+  <button class="fb" onclick="setFilter('now')">🟢 Buy now</button>
+  <button class="fb" onclick="setFilter('prebirth')">🏥 Before birth</button>
+  <button class="fb" onclick="setFilter('after')">After birth</button>
+</div>
 
 <div class="container">
 
-<!-- SLEEP -->
-<div class="category cat-sleep">
-  <div class="category-header">🛏️ Sleep</div>
-  <table>
-    <thead>
-      <tr>
-        <th></th>
-        <th>Item</th>
-        <th class="col-brand">Brand / Options</th>
-        <th>Notes</th>
-        <th class="col-where">Buy in</th>
-        <th class="col-link">Link</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="checkbox" data-id="s1"></td>
-        <td><div class="item-name">Bassinet / Co-sleeper <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">SnuzPod, Chicco Next2Me</div><div class="brand-alt">Or: HCMC local brands</div></td>
-        <td class="notes-cell">For first 6 months next to your bed. Safer than bedsharing.</td>
-        <td><select class="where-select" data-id="s1"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://www.snuz.co.uk/snuzpod4" target="_blank">View</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="s2"></td>
-        <td><div class="item-name">Cot / Crib <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">IKEA Sundvik, Stokke Sleepi</div><div class="brand-alt">Or: local VN crib</div></td>
-        <td class="notes-cell">For 6m+. IKEA available in HCMC. Stokke grows with baby.</td>
-        <td><select class="where-select" data-id="s2"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://www.ikea.com/vn/en/p/sundvik-cot-white-90290814/" target="_blank">View</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="s3"></td>
-        <td><div class="item-name">Cot mattress <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Lullaby Earth, Naturepedic</div></td>
-        <td class="notes-cell">Must be firm. Never use soft mattress for newborn — SIDS risk.</td>
-        <td><select class="where-select" data-id="s3"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="s4"></td>
-        <td><div class="item-name">Cotton fitted sheets <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Any 100% cotton</div></td>
-        <td class="notes-cell">Get x3 minimum — blowouts happen at 2am.</td>
-        <td><select class="where-select" data-id="s4"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="s5"></td>
-        <td><div class="item-name">Swaddle wraps <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Aden + Anais, Love to Dream</div></td>
-        <td class="notes-cell">x4–5. Muslin wraps for HCMC heat. Swaddle suits for newborn stage.</td>
-        <td><select class="where-select" data-id="s5"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://www.adenandanais.com" target="_blank">View</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="s6"></td>
-        <td><div class="item-name">Sleep sacks <span class="priority p-gray">NICE</span></div></td>
-        <td><div class="brand">Ergobaby, Love to Dream</div></td>
-        <td class="notes-cell">For when baby transitions out of swaddle (~8–12w).</td>
-        <td><select class="where-select" data-id="s6"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="s7"></td>
-        <td><div class="item-name">White noise machine <span class="priority p-gray">NICE</span></div></td>
-        <td><div class="brand">Hatch Rest, Yogasleep Dohm</div></td>
-        <td class="notes-cell">Genuinely helpful for sleep. App-controlled versions are great.</td>
-        <td><select class="where-select" data-id="s7"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://www.hatch.co/rest" target="_blank">View</a></td>
-      </tr>
-    </tbody>
-  </table>
+<div class="stats-strip">
+  <div class="stat-card"><div class="stat-num" id="statTotal">—</div><div class="stat-label">Total items</div></div>
+  <div class="stat-card"><div class="stat-num" id="statDone">—</div><div class="stat-label">Checked off</div></div>
+  <div class="stat-card"><div class="stat-num" id="statMust">—</div><div class="stat-label">MUST items left</div></div>
+  <div class="stat-card"><div class="stat-num" id="statCost">—</div><div class="stat-label">Est. budget (USD)</div></div>
 </div>
 
-<!-- FEEDING -->
-<div class="category cat-feeding">
-  <div class="category-header">🍼 Feeding</div>
-  <table>
-    <thead>
-      <tr><th></th><th>Item</th><th class="col-brand">Brand / Options</th><th>Notes</th><th class="col-where">Buy in</th><th class="col-link">Link</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="checkbox" data-id="f1"></td>
-        <td><div class="item-name">Electric breast pump <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Spectra S1, Medela Swing Maxi</div><div class="brand-alt">Or: Elvie Stride (wearable)</div></td>
-        <td class="notes-cell">Get double-electric. Spectra S1 = best value. Elvie = hands-free luxury.</td>
-        <td><select class="where-select" data-id="f1"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://spectra-baby.com" target="_blank">View</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="f2"></td>
-        <td><div class="item-name">Bottles x6 <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Dr. Brown's, Tommee Tippee</div><div class="brand-alt">Or: Comotomo (silicone)</div></td>
-        <td class="notes-cell">Even if breastfeeding — for pumped milk + easier transition.</td>
-        <td><select class="where-select" data-id="f2"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="f3"></td>
-        <td><div class="item-name">Bottle steriliser <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Philips Avent, Tommee Tippee</div></td>
-        <td class="notes-cell">Electric steam steriliser. Also sterilises pump parts.</td>
-        <td><select class="where-select" data-id="f3"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="f4"></td>
-        <td><div class="item-name">Nursing pillow <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Boppy, My Brest Friend</div></td>
-        <td class="notes-cell">Saves your back and arms. Also good for tummy time later.</td>
-        <td><select class="where-select" data-id="f4"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="f5"></td>
-        <td><div class="item-name">Milk storage bags <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Lansinoh, Medela</div></td>
-        <td class="notes-cell">Get 100–200. Write date + oz on each. Freeze flat.</td>
-        <td><select class="where-select" data-id="f5"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="f6"></td>
-        <td><div class="item-name">Burp cloths x10 <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Any muslin / terry cloth</div></td>
-        <td class="notes-cell">You'll use more than you think. HCMC = cheap and easy to find.</td>
-        <td><select class="where-select" data-id="f6"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="f7"></td>
-        <td><div class="item-name">Nipple cream <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Lansinoh, Medela PureLan</div></td>
-        <td class="notes-cell">Start using before birth. Safe for baby — no need to wipe off.</td>
-        <td><select class="where-select" data-id="f7"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="f8"></td>
-        <td><div class="item-name">Breast pads <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Lansinoh (disposable), Bamboo (reusable)</div></td>
-        <td class="notes-cell">You'll leak — a lot. Get both disposable and reusable.</td>
-        <td><select class="where-select" data-id="f8"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="f9"></td>
-        <td><div class="item-name">Bottle brush <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Dr. Brown's, OXO Tot</div></td>
-        <td class="notes-cell">For cleaning bottles + pump parts. Get one with a teat brush included.</td>
-        <td><select class="where-select" data-id="f9"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="f10"></td>
-        <td><div class="item-name">Slow-flow nipples (extra) <span class="priority p-gray">NICE</span></div></td>
-        <td><div class="brand">Match to your bottle brand</div></td>
-        <td class="notes-cell">Newborns need size 1 / slow flow. Get 2–3 extras — they get lost and worn.</td>
-        <td><select class="where-select" data-id="f10"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<div id="categories"></div>
 
-<!-- BATH -->
-<div class="category cat-bath">
-  <div class="category-header">🛁 Bath</div>
-  <table>
-    <thead>
-      <tr><th></th><th>Item</th><th class="col-brand">Brand / Options</th><th>Notes</th><th class="col-where">Buy in</th><th class="col-link">Link</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="checkbox" data-id="b1"></td>
-        <td><div class="item-name">Baby bath tub <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Stokke Flexi Bath, Summer Infant</div></td>
-        <td class="notes-cell">Foldable = easier to store in HCMC apartment.</td>
-        <td><select class="where-select" data-id="b1"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://www.stokke.com/flexi-bath" target="_blank">View</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="b2"></td>
-        <td><div class="item-name">Hooded towels x3 <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Aden + Anais, Cuddledry</div></td>
-        <td class="notes-cell">Muslin = best for HCMC heat. Hood keeps head warm after bath.</td>
-        <td><select class="where-select" data-id="b2"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="b3"></td>
-        <td><div class="item-name">Soft washcloths x6 <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Any soft muslin/cotton</div></td>
-        <td class="notes-cell">Also for face wipes between baths.</td>
-        <td><select class="where-select" data-id="b3"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="b4"></td>
-        <td><div class="item-name">Baby wash + shampoo <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Mustela, Cetaphil Baby, Burt's Bees</div></td>
-        <td class="notes-cell">Fragrance-free, tear-free. Mustela is excellent — available in VN.</td>
-        <td><select class="where-select" data-id="b4"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- CLOTHING -->
-<div class="category cat-clothing">
-  <div class="category-header">👕 Clothing (Newborn – 3 months)</div>
-  <table>
-    <thead>
-      <tr><th></th><th>Item</th><th class="col-brand">Brand / Options</th><th>Notes</th><th class="col-where">Buy in</th><th class="col-link">Link</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="checkbox" data-id="c1"></td>
-        <td><div class="item-name">Onesies / bodysuits x10 <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">H&M Baby, Next, Zara Baby</div></td>
-        <td class="notes-cell">Mix NB + 0-3m. Don't overbuy NB — he may skip it. Snap buttons at bottom.</td>
-        <td><select class="where-select" data-id="c1"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="c2"></td>
-        <td><div class="item-name">Sleepsuits / footie pajamas x6 <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">H&M, Next, John Lewis</div></td>
-        <td class="notes-cell">He'll wear these 24/7. Get zip-up ones — snaps at 3am are a nightmare.</td>
-        <td><select class="where-select" data-id="c2"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="c3"></td>
-        <td><div class="item-name">Scratch mittens x4 <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Any soft cotton</div></td>
-        <td class="notes-cell">Newborns scratch their own faces. Tiny but essential.</td>
-        <td><select class="where-select" data-id="c3"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="c4"></td>
-        <td><div class="item-name">Socks x6 <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Any</div></td>
-        <td class="notes-cell">They fall off constantly. Buy more than you think.</td>
-        <td><select class="where-select" data-id="c4"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="c5"></td>
-        <td><div class="item-name">Hats x2 <span class="priority p-gray">NICE</span></div></td>
-        <td><div class="brand">Any cotton/muslin</div></td>
-        <td class="notes-cell">For hospital + first weeks. HCMC heat = thin cotton only.</td>
-        <td><select class="where-select" data-id="c5"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- TRANSPORT -->
-<div class="category cat-transport">
-  <div class="category-header">🚗 Transport</div>
-  <table>
-    <thead>
-      <tr><th></th><th>Item</th><th class="col-brand">Brand / Options</th><th>Notes</th><th class="col-where">Buy in</th><th class="col-link">Link</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="checkbox" data-id="t1"></td>
-        <td><div class="item-name">Infant car seat <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Maxi-Cosi Pebble, Cybex Cloud Z</div><div class="brand-alt">Or: Joie i-Gemm (budget)</div></td>
-        <td class="notes-cell">Cannot leave hospital without one. Rear-facing until ~15 months.</td>
-        <td><select class="where-select" data-id="t1"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://www.maxi-cosi.com" target="_blank">View</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="t2"></td>
-        <td><div class="item-name">Pram / stroller <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">UPPAbaby Vista, Bugaboo Fox</div><div class="brand-alt">Or: Joie Mytrax (budget)</div></td>
-        <td class="notes-cell">For HCMC: needs to handle kerbs + heat. Lightweight matters a lot.</td>
-        <td><select class="where-select" data-id="t2"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="t3"></td>
-        <td><div class="item-name">Baby carrier / wrap <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Ergobaby Embrace, Solly Baby wrap</div><div class="brand-alt">Or: Boba Wrap (newborn)</div></td>
-        <td class="notes-cell">Newborn wrap = first 4 months. Structured carrier for 4m+. Hands-free life saver.</td>
-        <td><select class="where-select" data-id="t3"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://ergobaby.com" target="_blank">View</a></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- HEALTH & SAFETY -->
-<div class="category cat-health">
-  <div class="category-header">🏥 Health & Safety</div>
-  <table>
-    <thead>
-      <tr><th></th><th>Item</th><th class="col-brand">Brand / Options</th><th>Notes</th><th class="col-where">Buy in</th><th class="col-link">Link</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="checkbox" data-id="h1"></td>
-        <td><div class="item-name">Digital thermometer <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Braun ThermoScan (ear)</div><div class="brand-alt">Or: rectal thermometer (most accurate)</div></td>
-        <td class="notes-cell">Ear thermometer = fastest. Rectal = most accurate for under 3m.</td>
-        <td><select class="where-select" data-id="h1"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="h2"></td>
-        <td><div class="item-name">Nasal aspirator <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Frida NoseFrida</div></td>
-        <td class="notes-cell">Sounds gross, works brilliantly. Newborns can't blow their own nose.</td>
-        <td><select class="where-select" data-id="h2"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://fridababy.com/products/nosefrida" target="_blank">View</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="h3"></td>
-        <td><div class="item-name">Baby nail clippers / file <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Frida NailFrida, Safety 1st</div></td>
-        <td class="notes-cell">Clip nails when sleeping. File is gentler for first weeks.</td>
-        <td><select class="where-select" data-id="h3"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="h4"></td>
-        <td><div class="item-name">Baby monitor <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Nanit Pro, Eufy SpaceView</div><div class="brand-alt">Or: Motorola MBP36 (budget)</div></td>
-        <td class="notes-cell">Nanit = app-based, tracks breathing motion. Worth it for peace of mind.</td>
-        <td><select class="where-select" data-id="h4"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://nanit.com" target="_blank">View</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="h5"></td>
-        <td><div class="item-name">Saline nasal drops <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Little Remedies, NeilMed Baby</div></td>
-        <td class="notes-cell">Use before nasal aspirator to loosen congestion. Safe from birth. Always have on hand.</td>
-        <td><select class="where-select" data-id="h5"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="h6"></td>
-        <td><div class="item-name">Air purifier <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Dyson, Coway, Xiaomi</div><div class="brand-alt">HCMC air quality = essential</div></td>
-        <td class="notes-cell">HCMC air pollution is significant. HEPA filter essential for baby's room. Xiaomi = best value in VN.</td>
-        <td><select class="where-select" data-id="h6"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="h7"></td>
-        <td><div class="item-name">First aid kit (baby) <span class="priority p-gray">NICE</span></div></td>
-        <td><div class="brand">Frida Baby First Aid Kit</div></td>
-        <td class="notes-cell">Includes aspirator, nail file, dropper, gum massager. Good starter set.</td>
-        <td><select class="where-select" data-id="h7"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- SKINCARE & NAPPIES -->
-<div class="category cat-skincare">
-  <div class="category-header">🧴 Skincare & Nappies</div>
-  <table>
-    <thead>
-      <tr><th></th><th>Item</th><th class="col-brand">Brand / Options</th><th>Notes</th><th class="col-where">Buy in</th><th class="col-link">Link</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="checkbox" data-id="sk1"></td>
-        <td><div class="item-name">Nappies / diapers <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Pampers, Huggies, Merries (VN)</div></td>
-        <td class="notes-cell">Get 1–2 packs NB + 2 packs Size 1. Don't stockpile NB — he may skip it.</td>
-        <td><select class="where-select" data-id="sk1"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="sk2"></td>
-        <td><div class="item-name">Wet wipes (fragrance-free) <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Water Wipes, Pampers Sensitive</div></td>
-        <td class="notes-cell">Buy in bulk. Water Wipes = purest (99% water). Available in HCMC.</td>
-        <td><select class="where-select" data-id="sk2"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="sk3"></td>
-        <td><div class="item-name">Nappy cream <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Bepanthen, Sudocrem</div></td>
-        <td class="notes-cell">Apply at every change — prevents nappy rash. Bepanthen = gentlest.</td>
-        <td><select class="where-select" data-id="sk3"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="sk4"></td>
-        <td><div class="item-name">Nappy change mat <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Any waterproof mat</div></td>
-        <td class="notes-cell">Get 2 — one for each floor. Wipe-clean surface essential.</td>
-        <td><select class="where-select" data-id="sk4"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="sk5"></td>
-        <td><div class="item-name">Baby lotion / moisturiser <span class="priority p-gray">NICE</span></div></td>
-        <td><div class="brand">Mustela, CeraVe Baby</div></td>
-        <td class="notes-cell">For dry skin after bath. Fragrance-free. Newborn skin is sensitive.</td>
-        <td><select class="where-select" data-id="sk5"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="sk6"></td>
-        <td><div class="item-name">Diaper caddy <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Skip Hop, Ubbi, or any organiser</div></td>
-        <td class="notes-cell">Keep nappies, wipes, cream and cotton pads all in one portable caddy. Move between rooms easily.</td>
-        <td><select class="where-select" data-id="sk6"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="sk7"></td>
-        <td><div class="item-name">Cotton pads <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Any soft cotton pads (unbleached)</div></td>
-        <td class="notes-cell">For gentle face/eye cleaning. Newborn skin too sensitive for wipes on face.</td>
-        <td><select class="where-select" data-id="sk7"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- FOR NA -->
-<div class="category cat-pregnancy">
-  <div class="category-header">🤍 For You (Pregnancy & Postpartum)</div>
-  <table>
-    <thead>
-      <tr><th></th><th>Item</th><th class="col-brand">Brand / Options</th><th>Notes</th><th class="col-where">Buy in</th><th class="col-link">Link</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="checkbox" data-id="p1"></td>
-        <td><div class="item-name">Belly oil / stretch mark cream <span class="priority p-red">MUST — start now</span></div></td>
-        <td><div class="brand">Bio-Oil, Mustela Maternité</div><div class="brand-alt">Or: Palmer's Cocoa Butter</div></td>
-        <td class="notes-cell">Start now at 22w. Apply morning + night. Belly + hips + thighs + breasts.</td>
-        <td><select class="where-select" data-id="p1"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="p2"></td>
-        <td><div class="item-name">Pregnancy pillow <span class="priority p-red">MUST — get now</span></div></td>
-        <td><div class="brand">Leachco Snoogle, PharMeDoc</div></td>
-        <td class="notes-cell">Get now — sleeping on your side gets harder every week. U-shape = full body support.</td>
-        <td><select class="where-select" data-id="p2"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="p3"></td>
-        <td><div class="item-name">Nursing bras x3 <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Hotmilk, Cake Maternity, Bravado</div></td>
-        <td class="notes-cell">Buy towards third trimester when size stabilises. Wire-free essential.</td>
-        <td><select class="where-select" data-id="p3"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="p4"></td>
-        <td><div class="item-name">Postpartum pads / adult nappies <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Frida Mom, Always Discreet</div></td>
-        <td class="notes-cell">For after birth. Heavy bleeding for 2–6 weeks. Hospital usually provides first day.</td>
-        <td><select class="where-select" data-id="p4"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="p5"></td>
-        <td><div class="item-name">Maternity / compression socks <span class="priority p-gray">NICE</span></div></td>
-        <td><div class="brand">Sockwell, Sigvaris</div></td>
-        <td class="notes-cell">For swelling in third trimester + flying. Also good postpartum.</td>
-        <td><select class="where-select" data-id="p5"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- SUPPLEMENTS -->
-<div class="category cat-supplements">
-  <div class="category-header">💊 Supplements (For You)</div>
-  <table>
-    <thead>
-      <tr><th></th><th>Item</th><th class="col-brand">Brand / Options</th><th>Notes</th><th class="col-where">Buy in</th><th class="col-link">Link</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="checkbox" data-id="sup1"></td>
-        <td><div class="item-name">Prenatal multivitamin <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Elevit, Pregnacare, Blackmores</div><div class="brand-alt">Or: as prescribed by AIH</div></td>
-        <td class="notes-cell">Take daily throughout pregnancy + while breastfeeding. Check with AIH what they recommend.</td>
-        <td><select class="where-select" data-id="sup1"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="sup2"></td>
-        <td><div class="item-name">DHA / Omega-3 <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Nordic Naturals Prenatal DHA</div><div class="brand-alt">Or: Blackmores Pregnancy DHA</div></td>
-        <td class="notes-cell">Critical for baby's brain development. 200–300mg DHA/day. Check if already in your prenatal.</td>
-        <td><select class="where-select" data-id="sup2"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://www.nordicnaturals.com/consumers/prenatal-dha" target="_blank">View</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="sup3"></td>
-        <td><div class="item-name">Iron supplement <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Floradix (liquid, gentle), Ferrograd C</div><div class="brand-alt">Or: as prescribed by AIH</div></td>
-        <td class="notes-cell">AIH will check ferritin at visits. Take with Vit C for absorption. Avoid with calcium.</td>
-        <td><select class="where-select" data-id="sup3"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="sup4"></td>
-        <td><div class="item-name">Calcium + Vitamin D <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Caltrate, Ostelin</div></td>
-        <td class="notes-cell">1000mg calcium/day. Vitamin D3 for absorption. Don't take with iron — 2hr gap.</td>
-        <td><select class="where-select" data-id="sup4"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="sup5"></td>
-        <td><div class="item-name">Magnesium <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Magnesium glycinate (gentle form)</div></td>
-        <td class="notes-cell">Helps with leg cramps, sleep, and constipation — very common third trimester. Take at night.</td>
-        <td><select class="where-select" data-id="sup5"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="sup6"></td>
-        <td><div class="item-name">Vitamin C <span class="priority p-gray">NICE</span></div></td>
-        <td><div class="brand">Any 500mg Vit C</div></td>
-        <td class="notes-cell">Boosts iron absorption. Take alongside iron supplement.</td>
-        <td><select class="where-select" data-id="sup6"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="sup7"></td>
-        <td><div class="item-name">Choline <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Needed (Na's pick)</div><div class="brand-alt">Or: Thorne, Seeking Health</div></td>
-        <td class="notes-cell">Critical for baby's brain + neural tube development. Most prenatals don't include enough. 450mg/day recommended. Often missing from standard prenatal vitamins.</td>
-        <td><select class="where-select" data-id="sup7"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://www.needed.com/collections/prenatal" target="_blank">View</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="sup8"></td>
-        <td><div class="item-name">Probiotics (pregnancy-safe) <span class="priority p-gray">NICE</span></div></td>
-        <td><div class="brand">Culturelle, Garden of Life RAW Prenatal</div></td>
-        <td class="notes-cell">Supports gut health, reduces GD risk, may help prevent eczema in baby.</td>
-        <td><select class="where-select" data-id="sup8"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- HOSPITAL BAG -->
-<div class="category cat-bag">
-  <div class="category-header">🏥 Hospital Bag (Pack by Week 35)</div>
-  <table>
-    <thead>
-      <tr><th></th><th>Item</th><th class="col-brand">Brand / Options</th><th>Notes</th><th class="col-where">Buy in</th><th class="col-link">Link</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="checkbox" data-id="bag1"></td>
-        <td><div class="item-name">Documents <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">—</div></td>
-        <td class="notes-cell">Passport, health insurance card, AIH antenatal record, birth plan (if any), emergency contacts.</td>
-        <td><select class="where-select" data-id="bag1"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="bag2"></td>
-        <td><div class="item-name">Loose nightgowns x2 <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Any cotton, button-front for nursing</div></td>
-        <td class="notes-cell">Button-front or wrap-style = easier for breastfeeding. Dark colours hide stains.</td>
-        <td><select class="where-select" data-id="bag2"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="bag3"></td>
-        <td><div class="item-name">Nursing bra x2 <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Wire-free, soft cup</div></td>
-        <td class="notes-cell">Bring 2 to hospital. You'll wear these immediately after birth.</td>
-        <td><select class="where-select" data-id="bag3"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="bag4"></td>
-        <td><div class="item-name">High-waist maternity underwear x5 <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Frida Mom, Bonds, M&S</div></td>
-        <td class="notes-cell">Dark coloured. Disposable option also available. Hospital will use some.</td>
-        <td><select class="where-select" data-id="bag4"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="bag5"></td>
-        <td><div class="item-name">Postpartum pads <span class="priority p-red">MUST</span></div></td>
-        <td><div class="brand">Always Maxi, Frida Mom Instant Ice</div></td>
-        <td class="notes-cell">Hospital provides some but bring your own. Ice packs = relief for first 24hrs.</td>
-        <td><select class="where-select" data-id="bag5"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="bag6"></td>
-        <td><div class="item-name">Toiletries bag <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Your own</div></td>
-        <td class="notes-cell">Toothbrush, face wash, dry shampoo, lip balm (labour = very dry lips), hair ties, skincare.</td>
-        <td><select class="where-select" data-id="bag6"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="bag7"></td>
-        <td><div class="item-name">Robe + slippers <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Any soft/light robe</div></td>
-        <td class="notes-cell">For walking the ward. Slip-on slippers — easy to put on post-labour.</td>
-        <td><select class="where-select" data-id="bag7"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="bag8"></td>
-        <td><div class="item-name">Phone charger + power bank <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">—</div></td>
-        <td class="notes-cell">Long charger cable — outlets are never close to the bed.</td>
-        <td><select class="where-select" data-id="bag8"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="bag9"></td>
-        <td><div class="item-name">Snacks <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Nuts, dates, energy bars, crackers</div></td>
-        <td class="notes-cell">Labour is long. Hospital food is not great. Stock the bag.</td>
-        <td><select class="where-select" data-id="bag9"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="bag10"></td>
-        <td><div class="item-name">Going home outfit (you) <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Maternity leggings + loose top</div></td>
-        <td class="notes-cell">You'll still look 6 months pregnant leaving hospital. Comfort over style.</td>
-        <td><select class="where-select" data-id="bag10"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="bag11"></td>
-        <td><div class="item-name">Going home outfit (baby) <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Any soft newborn onesie + hat</div></td>
-        <td class="notes-cell">Newborn or 0-3m. The hospital photos are forever — pick a cute one.</td>
-        <td><select class="where-select" data-id="bag11"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="bag12"></td>
-        <td><div class="item-name">Nipple cream <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Lansinoh, Medela PureLan</div></td>
-        <td class="notes-cell">Pack in your bag — first latch is often painful. Use immediately.</td>
-        <td><select class="where-select" data-id="bag12"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="bag13"></td>
-        <td><div class="item-name">Headphones + tablet / iPad <span class="priority p-gray">NICE</span></div></td>
-        <td><div class="brand">—</div></td>
-        <td class="notes-cell">For labour playlist, shows during early labour, or partner entertainment during long waits.</td>
-        <td><select class="where-select" data-id="bag13"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- FORMULA / MILK POWDER -->
-<div class="category cat-formula">
-  <div class="category-header">🍼 Milk Powder / Formula (Backup)</div>
-  <table>
-    <thead>
-      <tr><th></th><th>Item</th><th class="col-brand">Brand / Options</th><th>Notes</th><th class="col-where">Buy in</th><th class="col-link">Link</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="checkbox" data-id="ml1"></td>
-        <td><div class="item-name">Stage 1 formula (0–6 months) <span class="priority p-orange">HIGH</span></div></td>
-        <td><div class="brand">Aptamil 1, Similac Advance</div><div class="brand-alt">Or: NAN Supreme, Enfamil NeuroPro</div></td>
-        <td class="notes-cell">Buy 1 tin to have on hand even if planning to breastfeed. Milk can take 3–5 days to come in. Aptamil widely available in VN and UK.</td>
-        <td><select class="where-select" data-id="ml1"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://www.aptaclub.co.uk/formula-milk/aptamil-1-first-infant-milk.html" target="_blank">View</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="ml2"></td>
-        <td><div class="item-name">Formula dispenser / prep machine <span class="priority p-gray">NICE</span></div></td>
-        <td><div class="brand">Tommee Tippee Perfect Prep</div></td>
-        <td class="notes-cell">Makes bottles at exact temperature in 2 min. Life-changing for night feeds if formula feeding.</td>
-        <td><select class="where-select" data-id="ml2"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><a class="link-btn" href="https://www.tommeetippee.com/en-gb/product/perfect-prep-machine" target="_blank">View</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" data-id="ml3"></td>
-        <td><div class="item-name">Powder formula storage container <span class="priority p-gray">NICE</span></div></td>
-        <td><div class="brand">Munchkin, Sistema</div></td>
-        <td class="notes-cell">Pre-measure formula for night feeds — pour and go.</td>
-        <td><select class="where-select" data-id="ml3"><option value="">—</option><option>VN</option><option>UK</option><option>Online</option><option>Both</option></select></td>
-        <td><span class="no-link">—</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<button class="reset-btn" onclick="resetAll()">Reset all checkboxes</button>
-
+<button class="reset-btn" onclick="resetAll()">Reset all</button>
 </div>
 
 <script>
-const STORAGE_KEY = 'baby-checklist-v1';
+const ITEMS = [
+  // SLEEP
+  {id:'s1',cat:'sleep',name:'Bassinet / co-sleeper',brand:'SnuzPod 4, Chicco Next2Me',alt:'Or: HCMC local brands',note:'For first 6 months next to your bed — safer than bedsharing. Crib comes later.',priority:'must',when:'prebirth',link:'https://www.snuz.co.uk/snuzpod4',est:200},
+  {id:'s2',cat:'sleep',name:'Baby lounger',brand:'Snuggle Me Organic, DockaTot',alt:'For supervised daytime lounging only',note:'Great for supervised tummy time and lounging. Never use unsupervised for sleep.',priority:'high',when:'after',est:100},
+  {id:'s3',cat:'sleep',name:'Baby bouncer / rocker',brand:'Mamaroo 4Moms, BabyBjörn Bliss',alt:'Or: Ingenuity ConvertMe (budget)',note:'Hands-free essential. HCMC heat = you can\'t always hold him. Mamaroo has app control.',priority:'high',when:'prebirth',est:150},
+  {id:'s4',cat:'sleep',name:'Cot / Crib',brand:'IKEA Sundvik, Stokke Sleepi',alt:'IKEA available in HCMC',note:'For 6m+. IKEA Sundvik is cheap and solid. Stokke grows with baby until age 10.',priority:'must',when:'prebirth',link:'https://www.ikea.com/vn/en/p/sundvik-cot-white-90290814/',est:150},
+  {id:'s5',cat:'sleep',name:'Firm cot mattress',brand:'Lullaby Earth, Naturepedic',alt:'Must be firm — non-negotiable',note:'Never use a soft mattress for newborns. SIDS risk. Get firm + breathable.',priority:'must',when:'prebirth',est:120},
+  {id:'s6',cat:'sleep',name:'Fitted crib sheets x3',brand:'Any 100% cotton or bamboo',note:'3 minimum. Blowouts happen at 2am and you need spares.',priority:'high',when:'prebirth',est:30},
+  {id:'s7',cat:'sleep',name:'Swaddle wraps x5',brand:'Aden + Anais (muslin), Love to Dream',note:'Muslin = breathable for HCMC heat. Start swaddling from birth until ~3m.',priority:'high',when:'prebirth',link:'https://www.adenandanais.com',est:40},
+  {id:'s8',cat:'sleep',name:'Sleep sacks',brand:'Ergobaby, Love to Dream Swaddle UP',note:'For transitioning out of swaddles at ~3m. Keeps baby warm without loose blankets.',priority:'nice',when:'after',est:35},
+  {id:'s9',cat:'sleep',name:'White noise machine',brand:'Hatch Rest+, Yogasleep Dohm',note:'Genuinely helps babies sleep. App-controlled Hatch lets you adjust remotely.',priority:'nice',when:'prebirth',link:'https://www.hatch.co/rest',est:80},
 
-function save() {
-  const state = {};
-  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-    state['cb_' + cb.dataset.id] = cb.checked;
-  });
-  document.querySelectorAll('select.where-select').forEach(sel => {
-    state['sel_' + sel.dataset.id] = sel.value;
-  });
+  // FEEDING
+  {id:'f1',cat:'feeding',name:'Electric breast pump (double)',brand:'Spectra S1, Medela Swing Maxi',alt:'Or: Elvie Stride (wearable/hands-free)',note:'Double electric = fastest. Spectra S1 = best value. Elvie = luxury hands-free for pumping on the go.',priority:'must',when:'prebirth',link:'https://spectra-baby.com',est:200},
+  {id:'f2',cat:'feeding',name:'Baby bottles x6',brand:'Dr. Brown\'s, Tommee Tippee',alt:'Or: Comotomo (silicone, feels natural)',note:'Even if breastfeeding — you\'ll use these for pumped milk. Dr. Brown\'s reduces colic.',priority:'must',when:'prebirth',est:40},
+  {id:'f3',cat:'feeding',name:'Nursing / feeding pillow',brand:'Boppy, My Brest Friend',note:'Saves your back and arms during feeds. Also great for tummy time later.',priority:'high',when:'prebirth',est:45},
+  {id:'f4',cat:'feeding',name:'Milk storage bags x200',brand:'Lansinoh, Medela',note:'Write date + oz on each. Freeze flat. 200 bags = ~2 months of pumping.',priority:'high',when:'prebirth',est:20},
+  {id:'f5',cat:'feeding',name:'Burp cloths x10',brand:'Any muslin or terry cloth',note:'You\'ll use more than you think. Buy cheap in bulk — HCMC has good options.',priority:'high',when:'prebirth',est:15},
+  {id:'f6',cat:'feeding',name:'Nipple cream',brand:'Lansinoh HPA Lanolin, Medela PureLan',note:'Start using in week 36 to prep. Safe for baby — no need to wipe off before feeding.',priority:'must',when:'now',est:15},
+  {id:'f7',cat:'feeding',name:'Breast pads',brand:'Lansinoh (disposable), Bamboo (reusable)',note:'You\'ll leak constantly — especially first 2 months. Get both disposable + reusable.',priority:'high',when:'prebirth',est:20},
+  {id:'f8',cat:'feeding',name:'Bottle brush',brand:'Dr. Brown\'s, OXO Tot',note:'Get one with a teat/nipple brush included. Use for bottles + pump parts.',priority:'high',when:'prebirth',est:10},
+  {id:'f9',cat:'feeding',name:'Slow-flow nipples (extras)',brand:'Match to your bottle brand (Size 1)',note:'Newborns need size 1 / slow flow. Stock 2–3 extras.',priority:'nice',when:'prebirth',est:10},
+  {id:'f10',cat:'feeding',name:'Pacifier x2',brand:'MAM, Philips Avent Soothie, NUK',note:'Try 2 different shapes — babies are picky. Have on hand even if you\'re not sure.',priority:'nice',when:'after',est:15},
+  {id:'f11',cat:'feeding',name:'Muslin squares x6',brand:'Aden + Anais, or any muslin',note:'Multi-use: bib, burp cloth, sun shade over pram, light swaddle, changing mat layer.',priority:'high',when:'prebirth',est:20},
+
+  // STERILISING
+  {id:'st1',cat:'sterilising',name:'UV steriliser with drying',brand:'Philips Avent UV Steriliser & Dryer',alt:'Or: Tommee Tippee UV, Haenim',note:'UV sterilises without chemicals. Built-in drying = one less step. Also sterilises pump parts.',priority:'must',when:'prebirth',est:100},
+
+  // TRANSPORT
+  {id:'t1',cat:'transport',name:'Nuna TRVL LX stroller',brand:'Buy in London — ~£325',alt:'Cheapest market confirmed (vs SGD 739 SG)',note:'Newborn-ready with near-flat recline. Clips directly onto Nuna PIPA. Lightweight for HCMC streets.',priority:'must',when:'prebirth',link:'https://ukbabycentre.com/products/nuna-trvl-lx-compact-stroller-cedar',est:400},
+  {id:'t2',cat:'transport',name:'Nuna PIPA infant car seat',brand:'Nuna PIPA, PIPA RX, PIPA Urbn',alt:'Clicks directly onto TRVL LX — no adapter',note:'Cannot leave hospital without one. Use from birth until ~5kg (~3-4 months). Then switch to TRVL LX seat only.',priority:'must',when:'prebirth',link:'https://nunababy.com/usa/pipa-series',est:350},
+  {id:'t3',cat:'transport',name:'Baby carrier / wrap',brand:'Ergobaby Embrace (structured newborn)',alt:'Or: Boba Wrap, Solly Baby (softer)',note:'Newborn wrap for first 4 months. Structured carrier for 4m+. Hands-free in markets/cafes.',priority:'high',when:'prebirth',link:'https://ergobaby.com',est:80},
+
+  // HEALTH & SAFETY
+  {id:'h1',cat:'health',name:'Digital thermometer',brand:'Braun ThermoScan 7 (ear)',alt:'Or: rectal thermometer (most accurate for <3m)',note:'Ear = fastest, 3 seconds. Rectal = most accurate for newborns. Get both if you can.',priority:'must',when:'prebirth',est:50},
+  {id:'h2',cat:'health',name:'Nasal aspirator',brand:'Frida NoseFrida',note:'The gold standard. Sounds gross, works better than anything else. Baby can\'t blow their nose.',priority:'high',when:'prebirth',link:'https://fridababy.com/products/nosefrida',est:20},
+  {id:'h3',cat:'health',name:'Baby nail clippers + file',brand:'Frida NailFrida electric, Safety 1st',note:'Clip nails while sleeping. Electric file (NailFrida) is the safest for newborns.',priority:'high',when:'prebirth',est:15},
+  {id:'h4',cat:'health',name:'Baby monitor',brand:'Nanit Pro (breathing motion), Eufy SpaceView',alt:'Budget: Motorola MBP36',note:'Nanit tracks breathing motion patterns. Worth it for peace of mind. App-based.',priority:'high',when:'prebirth',link:'https://nanit.com',est:250},
+  {id:'h5',cat:'health',name:'Saline nasal drops',brand:'Little Remedies, NeilMed Baby',note:'Use before nasal aspirator to loosen mucus. Safe from birth. Keep stocked at all times.',priority:'high',when:'prebirth',est:8},
+  {id:'h6',cat:'health',name:'Air purifier (HEPA)',brand:'Xiaomi Smart Air Purifier 4, Coway AP-1512',alt:'HCMC air quality = non-negotiable',note:'HCMC AQI regularly hits 150+. HEPA filter in baby\'s room is essential. Xiaomi = best value in VN.',priority:'high',when:'prebirth',est:100},
+  {id:'h7',cat:'health',name:'Humidifier',brand:'Levoit 300S, Crane Drop',note:'HCMC AC dries out baby\'s airways. Keeps humidity 50-60% in baby\'s room. Pair with air purifier.',priority:'high',when:'prebirth',est:60},
+  {id:'h8',cat:'health',name:'Baby first aid kit',brand:'Frida Baby First Aid Kit',note:'All-in-one: aspirator, gum massager, nail file, dropper. Good starter set.',priority:'nice',when:'prebirth',est:35},
+
+  // SKINCARE & NAPPIES
+  {id:'sk1',cat:'skincare',name:'Nappies / diapers',brand:'Merries, Pampers Premium, Huggies',note:'Get 1 pack NB + 2 packs Size 1 before birth. Don\'t stockpile NB — he may skip it.',priority:'must',when:'prebirth',est:40},
+  {id:'sk2',cat:'skincare',name:'Wet wipes (fragrance-free)',brand:'Water Wipes (99% water), Pampers Sensitive',note:'Buy in bulk. Water Wipes = purest, best for newborn skin. Available in HCMC.',priority:'must',when:'prebirth',est:25},
+  {id:'sk3',cat:'skincare',name:'Nappy / diaper cream',brand:'Bepanthen, Sudocrem',note:'Apply at EVERY change — prevents nappy rash. Bepanthen is gentlest. Always have 2 tubes.',priority:'high',when:'prebirth',est:15},
+  {id:'sk4',cat:'skincare',name:'Changing mat x2',brand:'Any waterproof wipe-clean mat',note:'Get 2 — one per floor. Wipe-clean. Life is too short for changing mats you have to wash.',priority:'high',when:'prebirth',est:25},
+  {id:'sk5',cat:'skincare',name:'Diaper caddy organiser',brand:'Skip Hop, Ubbi, or any basket',note:'Keep nappies, wipes, cream, cotton pads all in one portable caddy. Move room to room.',priority:'high',when:'prebirth',est:30},
+  {id:'sk6',cat:'skincare',name:'Cotton pads',brand:'Any unbleached soft cotton pads',note:'For gentle face and eye cleaning. Baby\'s face is too sensitive for regular wipes.',priority:'high',when:'prebirth',est:5},
+  {id:'sk7',cat:'skincare',name:'Baby laundry detergent',brand:'Dreft (Stage 1), Pigeon Baby Laundry',alt:'Or: Ecover Zero (fragrance-free)',note:'Wash ALL baby clothes before use. Regular detergent is too harsh. Use fragrance-free.',priority:'high',when:'prebirth',est:15},
+  {id:'sk8',cat:'skincare',name:'Baby lotion / moisturiser',brand:'Mustela Hydra Bébé, CeraVe Baby',note:'For dry skin patches after bath. Fragrance-free. Start from week 1.',priority:'nice',when:'prebirth',est:20},
+
+  // CLOTHING
+  {id:'c1',cat:'clothing',name:'Short-sleeve onesies x10',brand:'H&M Baby, Next, Zara Baby',note:'Mix NB (3-4 pcs) + 0-3m (6-7 pcs). Short sleeve for HCMC heat. Snap buttons at bottom.',priority:'high',when:'prebirth',est:40},
+  {id:'c2',cat:'clothing',name:'Zip-up sleepsuits x6',brand:'H&M, Next, M&S',note:'He wears these 24/7 in newborn stage. Zip-up ONLY — snaps at 3am are torture.',priority:'high',when:'prebirth',est:35},
+  {id:'c3',cat:'clothing',name:'Scratch mittens x4',brand:'Any soft cotton',note:'Newborns scratch their own faces constantly. Tiny but essential for first 4 weeks.',priority:'high',when:'prebirth',est:5},
+  {id:'c4',cat:'clothing',name:'Socks x6 pairs',brand:'Any',note:'They fall off within 30 seconds of putting on. Buy 2x more than you think you need.',priority:'high',when:'prebirth',est:10},
+  {id:'c5',cat:'clothing',name:'Cotton hats x2',brand:'Any thin cotton/muslin',note:'For hospital + first 2 weeks. HCMC heat = ultra-thin cotton only. Not for sleep.',priority:'nice',when:'prebirth',est:8},
+
+  // BATH
+  {id:'b1',cat:'bath',name:'Baby bath tub (foldable)',brand:'Stokke Flexi Bath, Summer Infant',note:'Foldable saves space in HCMC apartment. Stokke Flexi grows from newborn to toddler.',priority:'high',when:'prebirth',link:'https://www.stokke.com/flexi-bath',est:50},
+  {id:'b2',cat:'bath',name:'Hooded towels x3',brand:'Aden + Anais (muslin), Cuddledry',note:'Muslin = breathable for HCMC heat. Hood keeps head warm after bath. x3 for laundry cycles.',priority:'high',when:'prebirth',est:40},
+  {id:'b3',cat:'bath',name:'Soft washcloths x6',brand:'Any soft muslin/cotton',note:'For body washing + between-bath face wipes. Softer than adult washcloths.',priority:'high',when:'prebirth',est:12},
+  {id:'b4',cat:'bath',name:'Baby wash + shampoo',brand:'Mustela Foam Shampoo, Cetaphil Baby',note:'Tear-free, fragrance-free. Mustela is excellent and available in HCMC. One bottle does both.',priority:'high',when:'prebirth',est:20},
+
+  // SUPPLEMENTS
+  {id:'sup1',cat:'supplements',name:'Prenatal multivitamin',brand:'Elevit, Pregnacare Max, Blackmores',alt:'Or: as prescribed by AIH',note:'Take daily throughout pregnancy AND while breastfeeding. Confirm with AIH which brand.',priority:'must',when:'now',est:30},
+  {id:'sup2',cat:'supplements',name:'DHA / Omega-3 (prenatal)',brand:'Nordic Naturals Prenatal DHA',alt:'Or: Blackmores Pregnancy DHA',note:'Critical for baby\'s brain + eye development. 200–300mg DHA/day. Check if already in your prenatal.',priority:'must',when:'now',link:'https://www.nordicnaturals.com/consumers/prenatal-dha',est:30},
+  {id:'sup3',cat:'supplements',name:'Iron supplement',brand:'Floradix (liquid, gentle on stomach)',alt:'Or: as prescribed by AIH',note:'AIH checks ferritin at each visit. Floradix is liquid = gentler. Take with Vitamin C. Avoid calcium within 2hrs.',priority:'must',when:'now',est:25},
+  {id:'sup4',cat:'supplements',name:'Choline',brand:'Needed (Na\'s pick), Thorne',alt:'Or: Seeking Health Optimal Prenatal',note:'450mg/day recommended. Most prenatals skip this. Critical for brain + neural tube. Often the missing piece.',priority:'must',when:'now',link:'https://www.needed.com/collections/prenatal',est:35},
+  {id:'sup5',cat:'supplements',name:'Calcium + Vitamin D3',brand:'Caltrate, Ostelin Vit D + Calcium',note:'1000mg calcium/day. Vit D3 for absorption. Don\'t take with iron — leave a 2hr gap.',priority:'high',when:'now',est:20},
+  {id:'sup6',cat:'supplements',name:'Magnesium glycinate',brand:'Any magnesium glycinate (gentlest form)',note:'Leg cramps, constipation, better sleep — all third trimester staples. Take at night.',priority:'high',when:'now',est:20},
+  {id:'sup7',cat:'supplements',name:'Vitamin C',brand:'Any 500mg Vit C tablet',note:'Pairs with iron to boost absorption. Take together at same time.',priority:'nice',when:'now',est:8},
+  {id:'sup8',cat:'supplements',name:'Probiotics (pregnancy-safe)',brand:'Garden of Life RAW Prenatal, Culturelle',note:'Supports gut health, lowers GDM risk, may reduce eczema risk in baby.',priority:'nice',when:'now',est:30},
+
+  // FOR YOU
+  {id:'p1',cat:'forme',name:'Belly oil / stretch mark cream',brand:'Bio-Oil, Mustela Maternité Stretch Marks',alt:'Or: Palmer\'s Cocoa Butter Oil',note:'Start NOW at 22w — not 36w. Morning and night. Belly + hips + thighs + breasts.',priority:'must',when:'now',est:25},
+  {id:'p2',cat:'forme',name:'Pregnancy pillow',brand:'Leachco Snoogle, PharMeDoc U-shape',note:'Get NOW — sleeping on your side gets harder every week from here. U-shape = full body support.',priority:'must',when:'now',est:60},
+  {id:'p3',cat:'forme',name:'Nursing bras x3',brand:'Hotmilk, Cake Maternity, Bravado',note:'Buy at 34–36 weeks when size stabilises. Wire-free non-negotiable. You\'ll wear these for months.',priority:'high',when:'prebirth',est:90},
+  {id:'p4',cat:'forme',name:'Postpartum pads / heavy absorbency',brand:'Frida Mom, Always Discreet Overnight',note:'Heavy bleeding for 2–6 weeks after birth. Hospital provides first few hours — buy your own supply.',priority:'high',when:'prebirth',est:20},
+  {id:'p5',cat:'forme',name:'Maternity / compression socks',brand:'Sockwell, Sigvaris',note:'For swelling in third trimester + any flying. Also helpful postpartum.',priority:'nice',when:'now',est:25},
+
+  // HOSPITAL BAG
+  {id:'bag1',cat:'bag',name:'Documents wallet',brand:'—',note:'Passport, health insurance card, AIH antenatal record + sticker sheet, birth plan, emergency contacts list.',priority:'must',when:'prebirth',est:0},
+  {id:'bag2',cat:'bag',name:'Button-front nightgowns x2',brand:'Any cotton, dark colour',note:'Button or wrap-front for breastfeeding access. Dark colour hides stains.',priority:'must',when:'prebirth',est:30},
+  {id:'bag3',cat:'bag',name:'Nursing bra x2',brand:'Wire-free, soft cup (same as above)',note:'Pack your most comfortable ones. You\'ll wear them immediately after birth.',priority:'must',when:'prebirth',est:0},
+  {id:'bag4',cat:'bag',name:'High-waist maternity underwear x5',brand:'Frida Mom Disposable, or M&S dark cotton',note:'Dark colour. Disposable ones are actually very practical for hospital. Buy both.',priority:'must',when:'prebirth',est:20},
+  {id:'bag5',cat:'bag',name:'Postpartum pads (hospital bag)',brand:'Frida Mom Instant Ice Maxi Pad',alt:'Ice-pack pads = relief in first 24hrs',note:'Hospital provides some but you\'ll want your own. Ice-pad versions are exceptional.',priority:'must',when:'prebirth',est:20},
+  {id:'bag6',cat:'bag',name:'Toiletries bag',brand:'Your own toiletries',note:'Toothbrush, dry shampoo (labour is long), face wash, lip balm (labour = very dry lips), hair ties, skincare basics.',priority:'high',when:'prebirth',est:0},
+  {id:'bag7',cat:'bag',name:'Lightweight robe + slip-on slippers',brand:'Any',note:'For walking the ward. Slip-on is essential — you won\'t want to bend over.',priority:'high',when:'prebirth',est:25},
+  {id:'bag8',cat:'bag',name:'Phone charger + long cable + power bank',brand:'—',note:'Outlets are NEVER next to the bed. 2m cable minimum. Power bank for when Chris leaves.',priority:'high',when:'prebirth',est:0},
+  {id:'bag9',cat:'bag',name:'Snacks',brand:'Dates, nuts, energy bars, crackers',note:'Labour can take 12–24hrs. Hospital food is not great. Pack a proper snack bag.',priority:'high',when:'prebirth',est:10},
+  {id:'bag10',cat:'bag',name:'Going-home outfit (you)',brand:'Maternity leggings + loose top',note:'You\'ll still look 6 months pregnant leaving hospital. Comfort over everything.',priority:'high',when:'prebirth',est:0},
+  {id:'bag11',cat:'bag',name:'Going-home outfit (baby)',brand:'Soft newborn onesie + thin hat',note:'0-3m size. The hospital photos are forever — pick a cute one.',priority:'high',when:'prebirth',est:15},
+  {id:'bag12',cat:'bag',name:'Headphones + tablet / iPad',brand:'—',note:'For early labour playlist, shows, podcasts. Long waits.',priority:'nice',when:'prebirth',est:0},
+
+  // FORMULA
+  {id:'ml1',cat:'formula',name:'Stage 1 formula tin (backup)',brand:'Aptamil 1, Similac Advance, NAN Supreme',note:'Have 1 tin on hand even if planning to breastfeed. Milk can take 3-5 days to come in. Aptamil widely available in VN.',priority:'high',when:'prebirth',est:25},
+  {id:'ml2',cat:'formula',name:'Formula prep machine',brand:'Tommee Tippee Perfect Prep',note:'Makes bottles at exact right temperature in 2 min. Life-changing for night feeds if using formula.',priority:'nice',when:'after',est:100},
+  {id:'ml3',cat:'formula',name:'Formula storage container',brand:'Munchkin, Sistema',note:'Pre-measure formula into compartments. Pour and go at 3am without measuring.',priority:'nice',when:'after',est:15},
+];
+
+const CATS = [
+  {id:'sleep',emoji:'🛏️',label:'Sleep'},
+  {id:'feeding',emoji:'🍼',label:'Feeding'},
+  {id:'sterilising',emoji:'🧼',label:'Sterilising'},
+  {id:'transport',emoji:'🚗',label:'Transport'},
+  {id:'health',emoji:'🏥',label:'Health & Safety'},
+  {id:'skincare',emoji:'🧴',label:'Skincare & Nappies'},
+  {id:'clothing',emoji:'👕',label:'Clothing (NB–3m)'},
+  {id:'bath',emoji:'🛁',label:'Bath'},
+  {id:'supplements',emoji:'💊',label:'Supplements (For You)'},
+  {id:'forme',emoji:'🤍',label:'For You — Pregnancy & Postpartum'},
+  {id:'bag',emoji:'🏥',label:'Hospital Bag (Pack by Week 35)'},
+  {id:'formula',emoji:'🍼',label:'Milk Powder / Formula'},
+];
+
+const WHEN_LABEL = {now:'🟢 Buy now',w30:'🟡 Week 30',prebirth:'🔴 Before birth',after:'⚪ After birth'};
+const WHEN_CLASS = {now:'b-now',w30:'b-w30',prebirth:'b-prebirth',after:'b-after'};
+const STORAGE_KEY = 'ax-checklist-v3';
+let state = {};
+let currentFilter = 'all';
+
+function loadState() {
+  try { state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) { state = {}; }
+}
+
+function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
-function load() {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) return;
-  const state = JSON.parse(raw);
-  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-    if (state['cb_' + cb.dataset.id]) {
-      cb.checked = true;
-      cb.closest('tr').classList.add('done');
-    }
+function render() {
+  const container = document.getElementById('categories');
+  container.innerHTML = '';
+  CATS.forEach(cat => {
+    const items = ITEMS.filter(i => i.cat === cat.id);
+    if (!items.length) return;
+    const div = document.createElement('div');
+    div.className = `category cat-${cat.id}`;
+    div.id = `cat-${cat.id}`;
+    div.innerHTML = `
+      <div class="cat-header" onclick="toggleCat('${cat.id}')">
+        <div class="cat-left">
+          <span class="cat-emoji">${cat.emoji}</span>
+          <span class="cat-title">${cat.label}</span>
+        </div>
+        <div class="cat-right">
+          <span class="cat-done-count" id="catcount-${cat.id}"></span>
+          <span class="cat-chevron">▼</span>
+        </div>
+      </div>
+      <div class="cat-body" id="catbody-${cat.id}">
+        ${items.map(item => renderItem(item)).join('')}
+      </div>`;
+    container.appendChild(div);
   });
-  document.querySelectorAll('select.where-select').forEach(sel => {
-    if (state['sel_' + sel.dataset.id]) {
-      sel.value = state['sel_' + sel.dataset.id];
-    }
+  updateCounts();
+  applyFilter(currentFilter);
+}
+
+function renderItem(item) {
+  const checked = state[`cb_${item.id}`] || false;
+  const where = state[`where_${item.id}`] || '';
+  const cost = state[`cost_${item.id}`] || '';
+  const expanded = state[`exp_${item.id}`] || false;
+  return `
+  <div class="item${checked?' done':''}${expanded?' expanded':''}" id="item-${item.id}">
+    <div class="item-main" onclick="toggleExpand('${item.id}')">
+      <div class="item-cb" onclick="event.stopPropagation()">
+        <input type="checkbox" ${checked?'checked':''} onchange="toggleCheck('${item.id}',this.checked)">
+      </div>
+      <div class="item-info">
+        <div class="item-name">${item.name}</div>
+        <div class="item-meta">
+          <span class="badge b-${item.priority}">${item.priority.toUpperCase()}</span>
+          <span class="badge ${WHEN_CLASS[item.when]}">${WHEN_LABEL[item.when]}</span>
+          ${item.est > 0 ? `<span class="badge b-nice">~$${item.est}</span>` : ''}
+        </div>
+        <div class="brand-preview">${item.brand}</div>
+      </div>
+      <div class="expand-btn">▶</div>
+    </div>
+    <div class="item-detail">
+      <div class="detail-section">
+        <div class="dl">Brand</div>
+        <div class="dv">${item.brand}</div>
+        ${item.alt ? `<div class="dv alt">${item.alt}</div>` : ''}
+      </div>
+      <div class="detail-section">
+        <div class="dl">Notes</div>
+        <div class="dv note">${item.note}</div>
+      </div>
+      <div class="detail-inputs">
+        <select class="where-sel" onchange="saveWhere('${item.id}',this.value)">
+          <option value="" ${!where?'selected':''}>Where to buy…</option>
+          <option value="VN" ${where==='VN'?'selected':''}>🇻🇳 Vietnam</option>
+          <option value="UK" ${where==='UK'?'selected':''}>🇬🇧 London</option>
+          <option value="SG" ${where==='SG'?'selected':''}>🇸🇬 Singapore</option>
+          <option value="Online" ${where==='Online'?'selected':''}>🌐 Online</option>
+          <option value="Lisbon" ${where==='Lisbon'?'selected':''}>🇵🇹 Lisbon</option>
+        </select>
+        <input class="cost-in" type="text" placeholder="Price paid (e.g. £325)" value="${cost}" oninput="saveCost('${item.id}',this.value)">
+        ${item.link ? `<a class="link-btn" href="${item.link}" target="_blank">🔗 View</a>` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleCheck(id, checked) {
+  state[`cb_${id}`] = checked;
+  saveState();
+  const el = document.getElementById(`item-${id}`);
+  el.classList.toggle('done', checked);
+  updateCounts();
+}
+
+function toggleExpand(id) {
+  const el = document.getElementById(`item-${id}`);
+  const expanded = el.classList.toggle('expanded');
+  state[`exp_${id}`] = expanded;
+  saveState();
+}
+
+function toggleCat(id) {
+  const el = document.getElementById(`cat-${id}`);
+  el.classList.toggle('collapsed');
+}
+
+function saveWhere(id, val) { state[`where_${id}`] = val; saveState(); }
+function saveCost(id, val) { state[`cost_${id}`] = val; saveState(); }
+
+function updateCounts() {
+  const total = ITEMS.length;
+  const done = ITEMS.filter(i => state[`cb_${i.id}`]).length;
+  const mustLeft = ITEMS.filter(i => i.priority === 'must' && !state[`cb_${i.id}`]).length;
+  const pct = total ? Math.round(done/total*100) : 0;
+
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${done} of ${total} items (${pct}%)`;
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statDone').textContent = done;
+  document.getElementById('statMust').textContent = mustLeft;
+
+  // estimate: sum of items with est > 0 (unchecked items)
+  const budgetLeft = ITEMS.filter(i => !state[`cb_${i.id}`] && i.est > 0).reduce((s,i) => s+i.est, 0);
+  document.getElementById('statCost').textContent = '$'+budgetLeft.toLocaleString();
+
+  CATS.forEach(cat => {
+    const items = ITEMS.filter(i => i.cat === cat.id);
+    const catDone = items.filter(i => state[`cb_${i.id}`]).length;
+    const el = document.getElementById(`catcount-${cat.id}`);
+    if (el) el.textContent = `${catDone}/${items.length}`;
   });
 }
 
-function updateProgress() {
-  const all = document.querySelectorAll('input[type="checkbox"]');
-  const checked = document.querySelectorAll('input[type="checkbox"]:checked');
-  const pct = all.length ? Math.round((checked.length / all.length) * 100) : 0;
-  document.getElementById('progressBar').style.width = pct + '%';
-  document.getElementById('progressLabel').textContent = checked.length + ' of ' + all.length + ' items checked (' + pct + '%)';
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.fb').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  applyFilter(f);
+}
+
+function applyFilter(f) {
+  ITEMS.forEach(item => {
+    const el = document.getElementById(`item-${item.id}`);
+    if (!el) return;
+    let show = true;
+    if (f === 'must') show = item.priority === 'must';
+    else if (f === 'notdone') show = !state[`cb_${item.id}`];
+    else if (f === 'now') show = item.when === 'now';
+    else if (f === 'prebirth') show = item.when === 'prebirth' || item.when === 'now';
+    else if (f === 'after') show = item.when === 'after';
+    el.classList.toggle('hidden-filter', !show);
+  });
 }
 
 function resetAll() {
-  if (!confirm('Reset all checkboxes?')) return;
-  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-    cb.checked = false;
-    cb.closest('tr').classList.remove('done');
-  });
-  document.querySelectorAll('select.where-select').forEach(sel => sel.value = '');
+  if (!confirm('Reset all checkboxes and selections?')) return;
+  state = {};
   localStorage.removeItem(STORAGE_KEY);
-  updateProgress();
+  render();
 }
 
-document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-  cb.addEventListener('change', () => {
-    cb.closest('tr').classList.toggle('done', cb.checked);
-    save();
-    updateProgress();
-  });
-});
-
-document.querySelectorAll('select.where-select').forEach(sel => {
-  sel.addEventListener('change', () => save());
-});
-
-load();
-updateProgress();
+loadState();
+render();
 </script>
 </body>
 </html>
