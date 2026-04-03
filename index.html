@@ -107,6 +107,28 @@ select.where-sel:focus,input.cost-in:focus{border-color:#c9a96e}
 .reset-btn{display:block;margin:24px auto 0;padding:8px 22px;background:none;border:1.5px solid #e0e0e0;border-radius:8px;color:#ccc;font-size:12px;cursor:pointer;transition:all .15s}
 .reset-btn:hover{border-color:#aaa;color:#666}
 
+/* TIMELINE */
+.timeline-card{background:#fff;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:16px;overflow:hidden}
+.timeline-header{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;user-select:none}
+.timeline-header h2{font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#555;margin:0}
+.timeline-chevron{font-size:11px;color:#ccc;transition:transform .2s}
+.timeline-card.collapsed .timeline-chevron{transform:rotate(-90deg)}
+.timeline-card.collapsed .timeline-body{display:none}
+.timeline-body{border-top:1px solid #f0f0f0;padding:14px 16px}
+.tl-phase{margin-bottom:16px}
+.tl-phase:last-child{margin-bottom:0}
+.tl-phase-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.tl-phase-label.now{color:#15803d}
+.tl-phase-label.soon{color:#854d0e}
+.tl-phase-label.prebirth{color:#9f1239}
+.tl-phase-label.bag{color:#1565c0}
+.tl-phase-label.after{color:#64748b}
+.tl-items{display:flex;flex-wrap:wrap;gap:6px}
+.tl-tag{font-size:11.5px;padding:4px 10px;border-radius:99px;font-weight:500;line-height:1.3}
+.tl-tag.must{background:#fee2e2;color:#b91c1c}
+.tl-tag.high{background:#fef3c7;color:#b45309}
+.tl-tag.nice{background:#f3f4f6;color:#6b7280}
+
 /* SYNC */
 .sync-bar{display:flex;align-items:center;justify-content:space-between;margin-top:7px}
 .sync-status{font-size:11px;display:flex;align-items:center;gap:5px;color:#aaa}
@@ -168,6 +190,104 @@ select.where-sel:focus,input.cost-in:focus{border-color:#c9a96e}
       <button class="modal-btn secondary" onclick="hideSyncSetup()">Cancel</button>
       <button class="modal-btn primary" onclick="saveToken()">Save & Sync</button>
     </div>
+  </div>
+</div>
+
+<div class="timeline-card" id="timelineCard">
+  <div class="timeline-header" onclick="toggleTimeline()">
+    <h2>📅 When to Buy — Timeline</h2>
+    <span class="timeline-chevron" id="timelineChevron">▼</span>
+  </div>
+  <div class="timeline-body">
+
+    <div class="tl-phase">
+      <div class="tl-phase-label now">🟢 Buy Now (26w — you're here)</div>
+      <div class="tl-items">
+        <span class="tl-tag must">Choline (Needed brand)</span>
+        <span class="tl-tag must">DHA / Omega-3</span>
+        <span class="tl-tag must">Iron supplement</span>
+        <span class="tl-tag must">Prenatal multivitamin</span>
+        <span class="tl-tag must">Belly oil / stretch mark cream</span>
+        <span class="tl-tag must">Pregnancy pillow</span>
+        <span class="tl-tag high">Calcium + Vitamin D3</span>
+        <span class="tl-tag high">Magnesium glycinate</span>
+        <span class="tl-tag high">Probiotics</span>
+        <span class="tl-tag high">Nipple cream (order soon)</span>
+        <span class="tl-tag nice">Vitamin C</span>
+        <span class="tl-tag nice">Maternity / compression socks</span>
+      </div>
+    </div>
+
+    <div class="tl-phase">
+      <div class="tl-phase-label soon">📦 28–32w — Lock in the big items</div>
+      <div class="tl-items">
+        <span class="tl-tag must">Nuna TRVL LX stroller</span>
+        <span class="tl-tag must">Nuna PIPA infant car seat</span>
+        <span class="tl-tag must">Electric breast pump (double)</span>
+        <span class="tl-tag must">Bassinet / co-sleeper</span>
+        <span class="tl-tag must">Crib / cot + firm mattress</span>
+        <span class="tl-tag must">UV steriliser with dryer</span>
+        <span class="tl-tag must">Baby bottles x6</span>
+        <span class="tl-tag high">Air purifier (HEPA) — HCMC AQI</span>
+        <span class="tl-tag high">Baby monitor</span>
+        <span class="tl-tag high">Baby bouncer / rocker</span>
+        <span class="tl-tag high">Humidifier</span>
+        <span class="tl-tag high">Baby carrier / wrap</span>
+        <span class="tl-tag high">Nursing / feeding pillow</span>
+        <span class="tl-tag high">Milk storage bags x200</span>
+      </div>
+    </div>
+
+    <div class="tl-phase">
+      <div class="tl-phase-label prebirth">📦 32–36w — Fill out the rest</div>
+      <div class="tl-items">
+        <span class="tl-tag must">Nappies (1pk NB + 2pk Size 1)</span>
+        <span class="tl-tag must">Wet wipes (bulk, fragrance-free)</span>
+        <span class="tl-tag high">Swaddle wraps x5</span>
+        <span class="tl-tag high">Short-sleeve onesies x10</span>
+        <span class="tl-tag high">Zip-up sleepsuits x6</span>
+        <span class="tl-tag high">Nursing bras x3 (wait until 34–36w)</span>
+        <span class="tl-tag high">Nappy cream x2</span>
+        <span class="tl-tag high">Changing mat x2</span>
+        <span class="tl-tag high">Baby bath tub (foldable)</span>
+        <span class="tl-tag high">Hooded towels x3</span>
+        <span class="tl-tag high">Burp cloths x10</span>
+        <span class="tl-tag high">Muslin squares x6</span>
+        <span class="tl-tag high">Digital thermometer</span>
+        <span class="tl-tag high">Nasal aspirator (Frida)</span>
+        <span class="tl-tag high">Postpartum pads</span>
+        <span class="tl-tag high">Stage 1 formula tin (backup)</span>
+        <span class="tl-tag high">Crib sheets x3</span>
+        <span class="tl-tag high">Fitted sheets x3</span>
+      </div>
+    </div>
+
+    <div class="tl-phase">
+      <div class="tl-phase-label bag">🏥 Pack by Week 35 — Hospital bag</div>
+      <div class="tl-items">
+        <span class="tl-tag must">Documents wallet (passport, AIH card, birth plan)</span>
+        <span class="tl-tag must">Button-front nightgowns x2</span>
+        <span class="tl-tag must">High-waist underwear x5</span>
+        <span class="tl-tag must">Postpartum ice pads (Frida Mom)</span>
+        <span class="tl-tag high">Robe + slip-on slippers</span>
+        <span class="tl-tag high">Phone charger + 2m cable + power bank</span>
+        <span class="tl-tag high">Snacks (dates, nuts, energy bars)</span>
+        <span class="tl-tag high">Going-home outfit (you + baby)</span>
+        <span class="tl-tag nice">Headphones + tablet</span>
+      </div>
+    </div>
+
+    <div class="tl-phase">
+      <div class="tl-phase-label after">⚪ After birth — Don't buy yet</div>
+      <div class="tl-items">
+        <span class="tl-tag nice">Sleep sacks (~3m, when swaddle stops)</span>
+        <span class="tl-tag nice">Baby lounger (supervised use only)</span>
+        <span class="tl-tag nice">Lalo Hook-On Chair (~6m, when solids start)</span>
+        <span class="tl-tag nice">Formula prep machine (only if using formula)</span>
+        <span class="tl-tag nice">Formula storage containers</span>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -589,6 +709,12 @@ async function saveToGitHub() {
 function triggerSync() {
   clearTimeout(syncTimer);
   syncTimer = setTimeout(saveToGitHub, 2000);
+}
+
+// ── TIMELINE TOGGLE ──────────────────────────────────────────
+function toggleTimeline() {
+  const card = document.getElementById('timelineCard');
+  card.classList.toggle('collapsed');
 }
 
 // ── INIT ─────────────────────────────────────────────────────
